@@ -1146,44 +1146,118 @@ const MI_H={en:"What the monthly fee includes",it:"Cosa include il canone mensil
 function moInc(id){const s=SVC[id];if(!s||!s.mo)return[];if(/^care/.test(id))return tx("careInc",{})[id]||s.inc||[];return (MOINC[state.lang]||MOINC.en)[id]||MOINC.en[id]||[]}
 function moIncList(id){const a=moInc(id);return a.length?`<ul class="ticks mi">${a.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
 function moIncDetails(id){const a=moInc(id);return a.length?`<details class="mi-d"><summary>${MI_H[state.lang]||MI_H.en}</summary>${moIncList(id)}</details>`:""}
+function pkgCard(p, i){
+  let price;
+  const ann = state.billing === "annual";
+  if(p.svc){
+    const T = totals(p.svc.map(id=>({kind:"svc",id,qty:1})), state.billing || "monthly");
+    price = `<div class="price-hero">
+      <div class="ph-top">
+        <span class="ph-from">${t("from")}</span>
+        ${T.promo ? `<span class="ph-save-badge">Save ${Math.round(PROMO.rate*100)}%</span>` : ""}
+      </div>
+      <div class="ph-amount">
+        <b>${money(T.setupNet)}</b>
+        ${T.promo ? strike(T.setupNet + T.promo*(1-T.rate)) : ""}
+        <span class="ph-setup">${t("setup")}</span>
+      </div>
+      <div class="ph-recurring">
+        <span>+</span>
+        <strong>${money(T.moNet)}</strong>
+        <span class="ph-per-cycle">${ann ? t("per_year") : t("per_month")}</span>
+        <span class="ph-cloud-pill">⚡ Cloud + SSL + Care</span>
+      </div>
+    </div>`;
+  } else {
+    price = `<div class="price-hero custom-hero">
+      <div class="ph-top">
+        <span class="ph-from">${t("from")}</span>
+        <span class="ph-save-badge bespoke">Tailored SLA</span>
+      </div>
+      <div class="ph-amount">
+        <b>${t("by_proposal")}</b>
+      </div>
+      <div class="ph-recurring">
+        <span>${t("ps1h")} → ${t("ps3h")}</span>
+        <span class="ph-cloud-pill">NDA Included</span>
+      </div>
+    </div>`;
+  }
+
+  const all = p.svc && p.svc.every(inCart);
+  const setupItems = t(p.x).split(/\s*[,，、،]\s*/);
+  const moItems = p.svc ? p.svc.flatMap(id => moInc(id)) : [];
+
+  return `<article class="pkg-card ${p.hot ? "is-featured" : ""} tier-${p.tier.toLowerCase()}">
+    ${p.hot ? `<div class="pkg-popular-banner"><span>★ ${t("popular")}</span></div>` : ""}
+    <div class="pkg-card-head">
+      <div class="tier-pill-row">
+        <span class="tier-badge">${t(p.tier)}</span>
+        ${p.hot ? `<span class="tier-rating">Rated #1 Choice</span>` : ""}
+      </div>
+      <h3 class="tier-title">${t(p.n)}</h3>
+      <p class="tier-desc">${t(p.f)}</p>
+    </div>
+
+    <div class="pkg-price-hero">${price}</div>
+
+    <div class="pkg-cta-block">
+      ${p.svc 
+        ? `<button class="btn ${p.hot ? "btn-accent pkg-btn-hero" : "btn-primary pkg-btn-hero"}" data-action="pkgadd" data-i="${i}">
+            ${all ? "✓ " + t("added") : t("add_to_cart")}
+           </button>
+           <button class="pkg-link-quote" data-action="quote" data-s="${p.svc[0]}">
+             ${t("quote")} ›
+           </button>`
+        : `<a class="btn btn-accent pkg-btn-hero" href="#/proposal">${t("req_btn")} ›</a>
+           <span class="pkg-link-quote" style="cursor:default">Guaranteed quote within 1 business day</span>`
+      }
+    </div>
+
+    <div class="pkg-divider">
+      <span>What's included</span>
+    </div>
+
+    <div class="pkg-features-wrap">
+      <div class="feat-subgroup">
+        <span class="feat-subhead">Build & Launch Deliverables</span>
+        <ul class="feat-checklist">
+          ${setupItems.map(item => `<li><svg class="ck-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(0,174,239,0.12)"/><path d="M6 10l3 3 5-6" stroke="#00AEEF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(item)}</span></li>`).join("")}
+        </ul>
+      </div>
+
+      ${moItems.length ? `
+        <div class="feat-subgroup">
+          <span class="feat-subhead">Included Cloud & Monthly Care</span>
+          <ul class="feat-checklist monthly-checklist">
+            ${moItems.map(item => `<li><svg class="ck-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(16,185,129,0.12)"/><path d="M6 10l3 3 5-6" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>${esc(item)}</span></li>`).join("")}
+          </ul>
+        </div>
+      ` : `
+        <div class="feat-subgroup">
+          <span class="feat-subhead">Enterprise Architecture & SLA</span>
+          <ul class="feat-checklist monthly-checklist">
+            <li><svg class="ck-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(16,185,129,0.12)"/><path d="M6 10l3 3 5-6" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Dedicated Solutions Architect & Technical Lead</span></li>
+            <li><svg class="ck-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(16,185,129,0.12)"/><path d="M6 10l3 3 5-6" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Full IP Ownership & Clean Scalable Codebase</span></li>
+            <li><svg class="ck-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(16,185,129,0.12)"/><path d="M6 10l3 3 5-6" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Custom Microservices & Third-Party API Integrations</span></li>
+            <li><svg class="ck-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="rgba(16,185,129,0.12)"/><path d="M6 10l3 3 5-6" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Enterprise 99.99% High-Availability SLA</span></li>
+          </ul>
+        </div>
+      `}
+    </div>
+  </article>`;
+}
+
 function pkgCards(){
-  return PKGS.map((p,i)=>{
-    let price;
-    if(p.svc){
-      const T=totals(p.svc.map(id=>({kind:"svc",id,qty:1})), state.billing || "monthly");
-      price=`<div class="from-block">
-        <span class="price-lbl">${t("from")}</span>
-        <div class="price-val"><b>${money(T.setupNet)}</b>${T.promo?strike(T.setupNet+T.promo*(1-T.rate))+" ":""}<span class="price-setup">${t("setup")}</span></div>
-        <div class="price-mo">+ <strong>${money(T.moNet)}</strong>${t("per_month")} <span class="badge-hosting">Hosting incl.</span></div>
-      </div>`;
-    } else {
-      price=`<div class="from-block">
-        <span class="price-lbl">${t("from")}</span>
-        <div class="price-val"><b>${t("by_proposal")}</b></div>
-        <div class="price-mo">${t("ps1h")} → ${t("ps3h")}</div>
-      </div>`;
-    }
-    const all=p.svc&&p.svc.every(inCart);
-    return `<article class="pkg ${p.hot?"hot":""}">
-      ${p.hot?`<span class="badge">★ ${t("popular")}</span>`:""}
-      <div class="pkg-top">
-        <span class="tier tier-${p.tier.toLowerCase()}">${t(p.tier)}</span>
-        <h3>${t(p.n)}</h3>
-        <p class="for">${t(p.f)}</p>
-      </div>
-      <div class="pkg-price-wrap">${price}</div>
-      <div class="pkg-actions">
-        ${p.svc?`<button class="btn ${p.hot?"btn-accent":"btn-primary"}" data-action="pkgadd" data-i="${i}">${all?"✓ "+t("added"):t("add_to_cart")}</button>`:""}
-        ${p.svc?`<button class="btn btn-ghost" data-action="quote" data-s="${p.svc[0]}">${t("quote")}</button>`:`<a class="btn btn-accent" href="#/proposal">${t("req_btn")}</a>`}
-      </div>
-      <div class="pkg-divider"></div>
-      <div class="pkg-features">
-        <p class="feat-heading">What's included</p>
-        <ul>${t(p.x).split(/\s*[,，、،]\s*/).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
-      </div>
-      ${p.svc?`<div class="mi-box"><p class="mi-h">${MI_H[state.lang]||MI_H.en}</p>${p.svc.map(moIncList).join("")}</div>`:""}
-    </article>`;
-  }).join("");
+  const top3 = PKGS.slice(0, 3).map((p, i) => pkgCard(p, i)).join("");
+  const bottom2 = PKGS.slice(3).map((p, i) => pkgCard(p, i + 3)).join("");
+  return `<div class="pkgs-primary-grid">${top3}</div>
+  <div class="pkgs-divider-band">
+    <div class="pdb-line"></div>
+    <span class="pdb-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> SPECIALIZED GROWTH & ENTERPRISE ARCHITECTURE</span>
+    <div class="pdb-line"></div>
+  </div>
+  <div class="pkgs-secondary-grid">${bottom2}</div>`;
 }
 function solArt(k){const br=(inner,bg)=>`<div style="position:absolute;inset:26px 26px -20px;background:#fff;border-radius:12px 12px 0 0;box-shadow:0 24px 48px -12px rgba(0,0,0,.45);overflow:hidden"><div style="display:flex;gap:5px;padding:9px 12px;background:#EEF2F7"><i style="width:8px;height:8px;border-radius:50%;background:#C9D3E0"></i><i style="width:8px;height:8px;border-radius:50%;background:#C9D3E0"></i><i style="width:8px;height:8px;border-radius:50%;background:#C9D3E0"></i></div>${inner}</div>`;
  const bar=(w,c="#E3E8EF",h=8)=>`<i style="display:block;height:${h}px;width:${w};background:${c};border-radius:4px;margin-top:7px"></i>`;
@@ -1427,7 +1501,19 @@ function pageHome(){const cats=[["web","c_web"],["ecom","c_ecom"],["app","c_app"
  </div></section>
  <section class="sec"><div class="wrap"><div class="sec-h center"><h2>${t("pillars_h")}</h2><p>${t("pillars_p")}</p></div><div class="five-x">${bigPenta(facetI)}<div><div class="fpanel light" id="fpanel" aria-live="polite">${facetPanel(facetI)}</div><p class="note">${t("fhint")}</p></div></div></div></section>
  <section class="sec tint"><div class="wrap"><div class="sec-h center"><h2>${t("who_h")}</h2><p>${t("who_p")}</p></div><div class="who-tabs" role="tablist">${[1,2,3,4,5].map(i=>`<button role="tab" data-action="who" data-i="${i-1}" aria-selected="${whoI===i-1}">${t("pe"+i)}</button>`).join("")}</div><div class="who" id="whoP">${whoPanel(whoI)}</div></div></section>
- <section class="sec"><div class="wrap"><div class="sec-h center"><span class="sub-badge" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#00AEEF;background:rgba(0,174,239,.1);padding:6px 14px;border-radius:999px;margin-bottom:12px">Simple, Transparent Pricing</span><h2 style="font-size:2.4rem;letter-spacing:-0.03em">${t("pkg_h")}</h2><p style="max-width:640px;margin:8px auto 16px;font-size:16px;color:var(--ink-2)">${t("pkg_p")}</p><div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:18px 0 10px">${billingSeg()}</div></div><div class="pkgs">${pkgCards()}</div><p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center"><a class="btn btn-ghost" href="#/pricing">${t("cta_pricing")}</a><span class="note">${t("bundle_note")}</span></p></div></section>
+ <section class="sec pkg-section" id="pricing-packages"><div class="wrap">
+  <div class="sec-h center">
+   <span class="sub-badge bento-sub-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Transparent Investment · Fixed Starting Scope</span>
+   <h2 style="font-size:clamp(2rem,3.6vw,3.1rem);letter-spacing:-0.03em;margin-top:10px">${t("pkg_h")}</h2>
+   <p style="max-width:680px;margin:10px auto 18px;font-size:16.5px;color:var(--ink-2);line-height:1.6">${t("pkg_p")}</p>
+   <div class="billing-toggle-container">${billingSeg()}</div>
+  </div>
+  <div class="pkgs-container">${pkgCards()}</div>
+  <div class="pkgs-bottom-bar">
+   <a class="btn btn-ghost" href="#/pricing">${t("cta_pricing")} ›</a>
+   <span class="pkg-bundle-hint">🎁 ${t("bundle_note")}</span>
+  </div>
+ </div></section>
  <section class="sec navy"><div class="wrap"><div class="sec-h"><h2>${t("process_h")}</h2></div><ol class="steps">${[1,2,3,4,5,6,7].map(i=>`<li><h3>${t("st"+i)}</h3><p>${t("st"+i+"d")}</p></li>`).join("")}</ol></div></section>
  <section class="sec"><div class="wrap"><div class="sec-h center"><h2>${t("tst_h")}</h2></div><div class="tst"><button class="tst-nav" data-action="tst" data-d="-1" aria-label="Previous">‹</button><div id="tstV" aria-live="polite">${tstSlide(tstI)}</div><button class="tst-nav" data-action="tst" data-d="1" aria-label="Next">›</button></div><p class="note" style="text-align:center;margin-top:14px">${t("tst_note")}</p></div></section>
  <section class="sec tint"><div class="wrap"><div class="sec-h center"><h2>${t("tools_h")}</h2></div><div class="tools3">
