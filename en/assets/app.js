@@ -1467,7 +1467,7 @@ function bentoArt(i){
     <div class="pstat"><span>Monthly Invoices</span><b>Paid (1-Click PDF)</b></div>
     <div class="pstat"><span>Project Lead</span><b>Sarah H. (London)</b></div>
   </div>
-</div>`}">${t(n===1?"st_active":n===2?"st_await":"st_paid")}</span></div>`).join("")}</div>`}
+</div>`}
 function whoPanel(i){const n=i+1;return `<div class="who-tx"><h3>${t("pe"+n+"h")}</h3><p>${t("pe"+n+"p")}</p><ul class="ticks">${t("pe"+n+"x").split(/\s*[,，、،]\s*/).map(x=>`<li>${esc(x)}</li>`).join("")}</ul><a class="btn btn-accent" href="${["#/service/web","#/service/web","#/service/redesign","#/service/saas","#/partners"][i]}">${t("learn")} ›</a></div><div class="who-art">${solArt(["corp","ecom","corp","saas","app"][i])}</div>`}
 function tstSlide(i){const n=i+1;return `<blockquote class="tq"><div class="stars" aria-label="5/5">★★★★★</div><p>${t("tq"+n)}</p><footer><span class="tav">${["L","M","R"][i]}</span><span><b>${t("tn"+n)}</b><small>${t("tr"+n)}</small></span></footer></blockquote>`}
 function pageHome(){const cats=[["web","c_web"],["ecom","c_ecom"],["app","c_app"],["saas","c_saas"],["seo","c_seo"],["geo","c_geo"]];

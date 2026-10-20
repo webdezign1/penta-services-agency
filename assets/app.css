@@ -506,6 +506,22 @@ html[lang="ar"] .fct text{font-family:"IBM Plex Sans Arabic",sans-serif}
   box-shadow: 0 4px 14px rgba(0, 174, 239, 0.35);
   font-weight: 800;
 }
+/* Fallback compatibility */
+.pkgs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.pkg {
+  background: var(--surface, #ffffff);
+  border: 1px solid rgba(14, 42, 71, 0.1);
+  border-radius: 24px;
+  padding: 26px 22px;
+}
+@media (max-width: 1060px) {
+  .pkgs { grid-template-columns: 1fr; }
+}
+
 .pkgs-container {
   margin-top: 32px;
 }
