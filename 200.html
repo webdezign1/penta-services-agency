@@ -1,5 +1,12 @@
 <!doctype html>
 <html lang="en" dir="ltr"><head>
+<script>
+  (function() {
+    var isGh = location.hostname.indexOf('github.io') !== -1 || location.pathname.indexOf('/penta-services-agency') !== -1;
+    var b = isGh ? '/penta-services-agency/' : '/';
+    document.write('<base href="' + b + '">');
+  })();
+</script>
 <meta name="robots" content="index,follow,max-image-preview:large">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">

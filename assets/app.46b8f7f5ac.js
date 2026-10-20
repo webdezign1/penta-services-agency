@@ -1,6 +1,12 @@
 
 function getBasePath() {
-  return location.pathname.includes("/penta-services-agency") ? "/penta-services-agency" : "";
+  return (location.hostname.indexOf("github.io") !== -1 || location.pathname.indexOf("/penta-services-agency") !== -1)
+    ? "/penta-services-agency"
+    : "";
+}
+function getAssetPath(p) {
+  const b = getBasePath();
+  return (b ? b + "/" : "/") + p.replace(/^\/+/, "");
 }
 
 function safePushState(state, title, url) {
@@ -1152,7 +1158,13 @@ function solArt(k){const br=(inner,bg)=>`<div style="position:absolute;inset:26p
 const SOLS=[["corp","Corporate & business websites","Professional identity, lead generation and multi-page corporate architecture."],["ecom","E-commerce experiences","Product discovery, shopping experiences, payments and integrations."],["saas","Custom platforms & portals","SaaS dashboards, workflow systems, customer and business portals."],["app","Mobile applications","Intuitive apps for customer engagement and business operations."]];
 const solTiles=()=>solsX().map(([k,h,p])=>`<article class="sol">${solArt(k)}<div class="b"><span class="illus">${t("illus")}</span><h3>${h}</h3><p>${p}</p></div></article>`).join("");
 /* ---------- v5: SR-inspired homepage ---------- */
-const SLIDE_IMG={"corp": "/assets/img/slide-1.4d6415632e.webp", "ecom": "/assets/img/slide-2.1f52693c41.webp", "app": "/assets/img/slide-3.6206e0426e.webp", "saas": "/assets/img/slide-4.c244b98563.webp", "seo": "/assets/img/slide-5.7adae5cd97.webp"};
+const SLIDE_IMG={
+  "corp": getAssetPath("assets/img/slide-1.4d6415632e.webp"),
+  "ecom": getAssetPath("assets/img/slide-2.1f52693c41.webp"),
+  "app": getAssetPath("assets/img/slide-3.6206e0426e.webp"),
+  "saas": getAssetPath("assets/img/slide-4.c244b98563.webp"),
+  "seo": getAssetPath("assets/img/slide-5.7adae5cd97.webp")
+};
 /* ---------- v8: realistic industry website mockups for the home gallery ---------- */
 const RW_NAV=(brand,logo,links,cta,dark)=>`<div class="rw-nav ${dark?"dk":""}"><span class="rw-logo">${logo}<b>${brand}</b></span><span class="rw-links">${links.map(l=>`<i>${l}</i>`).join("")}</span><span class="rw-cta">${cta}</span></div>`;
 function realHTML(k){
