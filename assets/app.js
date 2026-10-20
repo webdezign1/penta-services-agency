@@ -1492,6 +1492,30 @@ function pageHome(){const cats=[["web","c_web"],["ecom","c_ecom"],["app","c_app"
   </div>
   <div class="bento">${[1,2,3,4,5,6].map(i=>{
     const tags=["VISUAL STUDIO","AI & GEO VISIBILITY","CORE WEB VITALS","GLOBAL LOCALIZATION","MANAGED CLOUD","EXECUTIVE PORTAL"];
+    if(i===1){
+      return `<a class="bx b1" href="#/builder">
+       <div class="bx-topline"><span class="bx-tag">${tags[0]}</span><span class="bx-arrow">↗</span></div>
+       <div class="b1-head">
+        <h3>${t("b1h")}</h3>
+        <p>${t("b1p")}</p>
+        <div class="b1-badges">
+         <span>✦ 50+ Sector Themes</span>
+         <span>✦ Drag & Drop Editor</span>
+         <span>✦ Free Draft Saving</span>
+        </div>
+       </div>
+       <div class="b1-palette">
+        <span class="b1-pal-lbl">Add Section:</span>
+        <span class="b1-chip active">Hero Header</span>
+        <span class="b1-chip">Features</span>
+        <span class="b1-chip">Work Gallery</span>
+        <span class="b1-chip">Pricing</span>
+        <span class="b1-chip">+ Custom Block</span>
+       </div>
+       <div class="bx-art b1-art">${bentoArt(1)}</div>
+       <div class="b1-foot"><span class="b1-cta">Launch Free Interactive Builder ›</span></div>
+      </a>`;
+    }
     return `<a class="bx b${i}" href="${["#/builder","#/service/geo","#/service/security","#/service/intl","#/service/hosting","#/dashboard"][i-1]}">
      <div class="bx-topline"><span class="bx-tag">${tags[i-1]}</span><span class="bx-arrow">↗</span></div>
      <div class="bx-art">${bentoArt(i)}</div>
