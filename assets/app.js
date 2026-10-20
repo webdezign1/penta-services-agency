@@ -1146,9 +1146,45 @@ const MI_H={en:"What the monthly fee includes",it:"Cosa include il canone mensil
 function moInc(id){const s=SVC[id];if(!s||!s.mo)return[];if(/^care/.test(id))return tx("careInc",{})[id]||s.inc||[];return (MOINC[state.lang]||MOINC.en)[id]||MOINC.en[id]||[]}
 function moIncList(id){const a=moInc(id);return a.length?`<ul class="ticks mi">${a.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
 function moIncDetails(id){const a=moInc(id);return a.length?`<details class="mi-d"><summary>${MI_H[state.lang]||MI_H.en}</summary>${moIncList(id)}</details>`:""}
-function pkgCards(){return PKGS.map((p,i)=>{let price;if(p.svc){const T=totals(p.svc.map(id=>({kind:"svc",id,qty:1})),"monthly");price=`<p class="from">${t("from")}<b>${money(T.setupNet)}</b>${T.promo?strike(T.setupNet+T.promo*(1-T.rate))+" ":""}${t("setup")} + ${money(T.moNet)}${t("per_month")}</p>`}else price=`<p class="from"><b>${t("by_proposal")}</b>${t("ps1h")} → ${t("ps3h")}</p>`;
- const all=p.svc&&p.svc.every(inCart);
- return `<article class="pkg ${p.hot?"hot":""}">${p.hot?`<span class="badge">${t("popular")}</span>`:""}<span class="tier">${t(p.tier)}</span><h3>${t(p.n)}</h3><p class="for">${t(p.f)}</p><ul>${t(p.x).split(/\s*[,，、،]\s*/).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${p.svc?`<div class="mi-box"><p class="mi-h">${MI_H[state.lang]||MI_H.en}</p>${p.svc.map(moIncList).join("")}</div>`:""}${price}${p.svc?`<button class="btn ${p.hot?"btn-accent":"btn-primary"}" data-action="pkgadd" data-i="${i}">${all?"✓ "+t("added"):t("add_to_cart")}</button>`:""}${p.svc?`<button class="btn btn-ghost" data-action="quote" data-s="${p.svc[0]}">${t("quote")}</button>`:`<a class="btn btn-accent" href="#/proposal">${t("req_btn")}</a>`}</article>`}).join("")}
+function pkgCards(){
+  return PKGS.map((p,i)=>{
+    let price;
+    if(p.svc){
+      const T=totals(p.svc.map(id=>({kind:"svc",id,qty:1})), state.billing || "monthly");
+      price=`<div class="from-block">
+        <span class="price-lbl">${t("from")}</span>
+        <div class="price-val"><b>${money(T.setupNet)}</b>${T.promo?strike(T.setupNet+T.promo*(1-T.rate))+" ":""}<span class="price-setup">${t("setup")}</span></div>
+        <div class="price-mo">+ <strong>${money(T.moNet)}</strong>${t("per_month")} <span class="badge-hosting">Hosting incl.</span></div>
+      </div>`;
+    } else {
+      price=`<div class="from-block">
+        <span class="price-lbl">${t("from")}</span>
+        <div class="price-val"><b>${t("by_proposal")}</b></div>
+        <div class="price-mo">${t("ps1h")} → ${t("ps3h")}</div>
+      </div>`;
+    }
+    const all=p.svc&&p.svc.every(inCart);
+    return `<article class="pkg ${p.hot?"hot":""}">
+      ${p.hot?`<span class="badge">★ ${t("popular")}</span>`:""}
+      <div class="pkg-top">
+        <span class="tier tier-${p.tier.toLowerCase()}">${t(p.tier)}</span>
+        <h3>${t(p.n)}</h3>
+        <p class="for">${t(p.f)}</p>
+      </div>
+      <div class="pkg-price-wrap">${price}</div>
+      <div class="pkg-actions">
+        ${p.svc?`<button class="btn ${p.hot?"btn-accent":"btn-primary"}" data-action="pkgadd" data-i="${i}">${all?"✓ "+t("added"):t("add_to_cart")}</button>`:""}
+        ${p.svc?`<button class="btn btn-ghost" data-action="quote" data-s="${p.svc[0]}">${t("quote")}</button>`:`<a class="btn btn-accent" href="#/proposal">${t("req_btn")}</a>`}
+      </div>
+      <div class="pkg-divider"></div>
+      <div class="pkg-features">
+        <p class="feat-heading">What's included</p>
+        <ul>${t(p.x).split(/\s*[,，、،]\s*/).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+      </div>
+      ${p.svc?`<div class="mi-box"><p class="mi-h">${MI_H[state.lang]||MI_H.en}</p>${p.svc.map(moIncList).join("")}</div>`:""}
+    </article>`;
+  }).join("");
+}
 function solArt(k){const br=(inner,bg)=>`<div style="position:absolute;inset:26px 26px -20px;background:#fff;border-radius:12px 12px 0 0;box-shadow:0 24px 48px -12px rgba(0,0,0,.45);overflow:hidden"><div style="display:flex;gap:5px;padding:9px 12px;background:#EEF2F7"><i style="width:8px;height:8px;border-radius:50%;background:#C9D3E0"></i><i style="width:8px;height:8px;border-radius:50%;background:#C9D3E0"></i><i style="width:8px;height:8px;border-radius:50%;background:#C9D3E0"></i></div>${inner}</div>`;
  const bar=(w,c="#E3E8EF",h=8)=>`<i style="display:block;height:${h}px;width:${w};background:${c};border-radius:4px;margin-top:7px"></i>`;
  if(k==="corp")return `<div class="art" style="background:linear-gradient(135deg,#0E2A47,#2A5C96)">${br(`<div style="background:#0E2A47;padding:18px 16px;display:grid;grid-template-columns:1.3fr 1fr;gap:12px"><div>${bar("85%","#fff",12)}${bar("60%","#fff",12)}${bar("70%","#5C7FA6")}<i style="display:inline-block;margin-top:12px;width:84px;height:22px;border-radius:11px;background:#00AEEF"></i></div><div style="border-radius:10px;background:linear-gradient(135deg,#00AEEF,#4479B8)"></div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px">${"<div style='border:1px solid #E6EAF0;border-radius:8px;padding:8px'><i style='display:block;width:18px;height:18px;border-radius:5px;background:#00AEEF'></i>"+bar("80%")+"</div>".repeat(1)}${"<div style='border:1px solid #E6EAF0;border-radius:8px;padding:8px'><i style='display:block;width:18px;height:18px;border-radius:5px;background:#2A5C96'></i>"+bar("70%")+"</div>"}${"<div style='border:1px solid #E6EAF0;border-radius:8px;padding:8px'><i style='display:block;width:18px;height:18px;border-radius:5px;background:#0E2A47'></i>"+bar("75%")+"</div>"}</div>`)}</div>`;
@@ -1222,7 +1258,7 @@ function pageHome(){const cats=[["web","c_web"],["ecom","c_ecom"],["app","c_app"
  <section class="sec navy"><div class="wrap"><div class="sec-h"><h2>${t("bento_h")}</h2><p>${t("bento_p")}</p></div><div class="bento">${[1,2,3,4,5,6].map(i=>`<a class="bx b${i}" href="${["#/builder","#/service/geo","#/service/security","#/service/intl","#/service/hosting","#/dashboard"][i-1]}"><div class="bx-art">${bentoArt(i)}</div><h3>${t("b"+i+"h")}</h3><p>${t("b"+i+"p")}</p></a>`).join("")}</div></div></section>
  <section class="sec"><div class="wrap"><div class="sec-h center"><h2>${t("pillars_h")}</h2><p>${t("pillars_p")}</p></div><div class="five-x">${bigPenta(facetI)}<div><div class="fpanel light" id="fpanel" aria-live="polite">${facetPanel(facetI)}</div><p class="note">${t("fhint")}</p></div></div></div></section>
  <section class="sec tint"><div class="wrap"><div class="sec-h center"><h2>${t("who_h")}</h2><p>${t("who_p")}</p></div><div class="who-tabs" role="tablist">${[1,2,3,4,5].map(i=>`<button role="tab" data-action="who" data-i="${i-1}" aria-selected="${whoI===i-1}">${t("pe"+i)}</button>`).join("")}</div><div class="who" id="whoP">${whoPanel(whoI)}</div></div></section>
- <section class="sec"><div class="wrap"><div class="sec-h center"><h2>${t("pkg_h")}</h2><p>${t("pkg_p")}</p></div><div class="pkgs">${pkgCards()}</div><p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center"><a class="btn btn-ghost" href="#/pricing">${t("cta_pricing")}</a><span class="note">${t("bundle_note")}</span></p></div></section>
+ <section class="sec"><div class="wrap"><div class="sec-h center"><span class="sub-badge" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#00AEEF;background:rgba(0,174,239,.1);padding:6px 14px;border-radius:999px;margin-bottom:12px">Simple, Transparent Pricing</span><h2 style="font-size:2.4rem;letter-spacing:-0.03em">${t("pkg_h")}</h2><p style="max-width:640px;margin:8px auto 16px;font-size:16px;color:var(--ink-2)">${t("pkg_p")}</p><div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:18px 0 10px">${billingSeg()}</div></div><div class="pkgs">${pkgCards()}</div><p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center"><a class="btn btn-ghost" href="#/pricing">${t("cta_pricing")}</a><span class="note">${t("bundle_note")}</span></p></div></section>
  <section class="sec navy"><div class="wrap"><div class="sec-h"><h2>${t("process_h")}</h2></div><ol class="steps">${[1,2,3,4,5,6,7].map(i=>`<li><h3>${t("st"+i)}</h3><p>${t("st"+i+"d")}</p></li>`).join("")}</ol></div></section>
  <section class="sec"><div class="wrap"><div class="sec-h center"><h2>${t("tst_h")}</h2></div><div class="tst"><button class="tst-nav" data-action="tst" data-d="-1" aria-label="Previous">‹</button><div id="tstV" aria-live="polite">${tstSlide(tstI)}</div><button class="tst-nav" data-action="tst" data-d="1" aria-label="Next">›</button></div><p class="note" style="text-align:center;margin-top:14px">${t("tst_note")}</p></div></section>
  <section class="sec tint"><div class="wrap"><div class="sec-h center"><h2>${t("tools_h")}</h2></div><div class="tools3">
