@@ -1233,12 +1233,167 @@ function seoArt(){return `<div class="art" style="background:linear-gradient(135
 const showArt=k=>k==="seo"?seoArt():solArt(k);
 function stage(){return `<div class="stage"><div class="stage-tabs" role="tablist" aria-label="Showcase">${SHOW_K.map((k,i)=>`<button role="tab" data-action="show" data-i="${i}" aria-selected="${i===showI}" aria-controls="stageV">${t("sh"+(i+1))}</button>`).join("")}</div><div class="stage-view slides" id="stageV">${SHOW_K.map((k,i)=>`<img src="${SLIDE_IMG[k]}" width="1650" height="630" alt="${esc(t("sh"+(i+1)))}: Penta Services ${esc(t("sh"+(i+1)).toLowerCase())} design example" class="${i===showI?"on":""}" ${i?'loading="lazy"':'fetchpriority="high"'} decoding="async">`).join("")}</div><div class="stage-dots" aria-hidden="true">${SHOW_K.map((k,i)=>`<i class="${i===showI?"on":""}"></i>`).join("")}</div></div>`}
 function bentoArt(i){
- if(i===1)return `<div class="bx-build"><div class="bx-side">${[0,1,2,3].map(n=>`<i class="${n===1?"on":""}"></i>`).join("")}</div><div class="bx-page"><div class="bx-h"></div><div class="bx-l"></div><div class="bx-l s"></div><div class="bx-btn"></div><div class="bx-grid"><i></i><i></i><i></i></div></div></div>`;
- if(i===2)return `<div class="bx-ai"><div class="q">${t("b_ai_q")}</div><div class="a">${logoSVG(16)} ${t("b_ai_a")}</div></div>`;
- if(i===3)return `<div class="bx-gauge"><svg viewBox="0 0 120 70"><path d="M10 64 A50 50 0 0 1 110 64" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="12" stroke-linecap="round"/><path class="g" d="M10 64 A50 50 0 0 1 110 64" fill="none" stroke="#00AEEF" stroke-width="12" stroke-linecap="round" pathLength="100" stroke-dasharray="98 100"/></svg><b>98</b></div>`;
- if(i===4)return `<div class="bx-lang">${["English","Italiano","Français","العربية","中文"].map(l=>`<span>${l}</span>`).join("")}</div>`;
- if(i===5)return `<div class="bx-stat">${["SSL","Backups","Uptime 99.9%","CDN"].map(l=>`<div><i></i>${l}</div>`).join("")}</div>`;
- return `<div class="bx-dash">${[1,2,3].map(n=>`<div><b></b><span class="pill ${n===1?"active":n===2?"await":"paid"}">${t(n===1?"st_active":n===2?"st_await":"st_paid")}</span></div>`).join("")}</div>`}
+ if(i===1)return `<div class="bx-studio">
+  <div class="bxs-chrome">
+    <div class="bxs-dots"><i></i><i></i><i></i></div>
+    <div class="bxs-url"><span>🔒</span> preview.penta.studio/artisan-bakery</div>
+    <div class="bxs-dev">
+      <span class="bxs-dev-btn active" title="Desktop"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
+      <span class="bxs-dev-btn" title="Mobile"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg></span>
+    </div>
+    <span class="bxs-live-badge"><i></i> 60fps Sync</span>
+  </div>
+  <div class="bxs-body">
+    <div class="bxs-sidebar">
+      <span class="bxs-tool on" title="Layers"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
+      <span class="bxs-tool" title="Typography"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg></span>
+      <span class="bxs-tool" title="Colors"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 10 10 0 0 0 0-20"/></svg></span>
+      <span class="bxs-tool" title="Components"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+    </div>
+    <div class="bxs-canvas">
+      <div class="bxs-mini-nav">
+        <b>Artisan Bakery</b>
+        <div class="bxs-mini-links"><span>Home</span><span>Menu</span><span>Story</span></div>
+        <span class="bxs-mini-cta">Order Now</span>
+      </div>
+      <div class="bxs-canvas-content">
+        <div class="bxs-sel-box">
+          <div class="bxs-sel-pill">&lt;HeroSection&gt; · Drag & Drop Live</div>
+          <div class="bxs-hnd tl"></div><div class="bxs-hnd tr"></div><div class="bxs-hnd bl"></div><div class="bxs-hnd br"></div>
+          <div class="bxs-cursor"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00AEEF"><path d="M3 3l7 18 3-7 7-3L3 3z"/></svg><span>Sarah · Lead</span></div>
+          <div class="bxs-tag">★ Organic Sourdough & Specialty Coffee</div>
+          <div class="bxs-h">Handmade daily in Mayfair with wild fermentation</div>
+          <div class="bxs-btns">
+            <span class="bxs-btn bpri">Reserve Table ›</span>
+            <span class="bxs-btn bsec">View Daily Bakes</span>
+          </div>
+        </div>
+      </div>
+      <div class="bxs-bar-bottom">
+        <span>⚡ Autosaved</span>
+        <span>📐 Responsive 12-Col</span>
+        <span>🎨 Playfair + Montserrat</span>
+      </div>
+    </div>
+  </div>
+</div>`;
+ if(i===2)return `<div class="bx-ai-engine">
+  <div class="bx-ai-chips">
+    <span class="ai-chip"><i style="background:#10A37F"></i> ChatGPT 4o</span>
+    <span class="ai-chip"><i style="background:#1B90FF"></i> Google Gemini</span>
+    <span class="ai-chip on"><i style="background:#20B2AA"></i> Perplexity Pro</span>
+    <span class="ai-chip"><i style="background:#8B5CF6"></i> Claude 3.5</span>
+  </div>
+  <div class="bx-ai-q">
+    <span class="ai-q-ico">🔍</span>
+    <p>${t("b_ai_q")}</p>
+  </div>
+  <div class="bx-ai-a">
+    <div class="ai-a-top">
+      <span class="ai-brand-badge">${logoSVG(14)} AI Knowledge Synthesis</span>
+      <span class="ai-verified">Verified Top Citation [1]</span>
+    </div>
+    <div class="ai-msg">
+      <strong>Penta Services</strong> is ranked as the leading multilingual web agency in London and Milan. Specializing in high-performance websites with built-in GEO (Generative Engine Optimization) that are natively indexed by ChatGPT, Perplexity, and Gemini.
+    </div>
+    <div class="ai-sources">
+      <span class="ai-src"><b>[1]</b> pentaservices.co.uk <i>✓ Primary Citation</i></span>
+      <span class="ai-src"><b>[2]</b> London Web Directory 2026</span>
+    </div>
+  </div>
+</div>`;
+ if(i===3)return `<div class="bx-perf">
+  <div class="bx-gauge-wrap">
+    <svg viewBox="0 0 120 70">
+      <defs>
+        <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00AEEF"/>
+          <stop offset="100%" stop-color="#10B981"/>
+        </linearGradient>
+      </defs>
+      <path d="M10 64 A50 50 0 0 1 110 64" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="10" stroke-linecap="round"/>
+      <path class="g-glow" d="M10 64 A50 50 0 0 1 110 64" fill="none" stroke="url(#gaugeGrad)" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="99 100"/>
+    </svg>
+    <div class="bx-gauge-center">
+      <b>99</b>
+      <small>LIGHTHOUSE</small>
+    </div>
+  </div>
+  <div class="bx-vitals-grid">
+    <div class="v-card"><span>LCP</span><b>0.6s</b><small>⚡ Fast</small></div>
+    <div class="v-card"><span>FID</span><b>4ms</b><small>⚡ Instant</small></div>
+    <div class="v-card"><span>CLS</span><b>0.00</b><small>⚡ Zero Shift</small></div>
+  </div>
+  <div class="bx-vitals-foot"><i></i> All Core Web Vitals Passed</div>
+</div>`;
+ if(i===4)return `<div class="bx-locale">
+  <div class="bx-loc-pills">
+    <span class="lp on">🇬🇧 EN</span>
+    <span class="lp">🇮🇹 IT</span>
+    <span class="lp">🇫🇷 FR</span>
+    <span class="lp rtl-pill">🇦🇪 العربية</span>
+    <span class="lp">🇨🇳 中文</span>
+  </div>
+  <div class="bx-loc-box">
+    <div class="loc-sub">
+      <small>LTR · English Global</small>
+      <p>Turn visitors into clients worldwide.</p>
+    </div>
+    <div class="loc-sub rtl" dir="rtl">
+      <small>RTL · Bi-directional Arabic</small>
+      <p>حوّل الزوار إلى عملاء في جميع أنحاء العالم.</p>
+    </div>
+  </div>
+  <div class="bx-loc-meta">
+    <span>🌐 Auto-Locale GeoIP</span>
+    <span>⚡ Instant RTL Flip</span>
+  </div>
+</div>`;
+ if(i===5)return `<div class="bx-cloud">
+  <div class="cloud-status-bar">
+    <span class="c-online"><i></i> All Systems 100% Operational</span>
+    <span class="c-region">AWS Global Edge</span>
+  </div>
+  <div class="cloud-grid">
+    <div class="c-item">
+      <div class="c-icon" style="color:#00AEEF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <div><b>Global Edge CDN</b><small>35+ PoPs · 12ms latency</small></div>
+    </div>
+    <div class="c-item">
+      <div class="c-icon" style="color:#10B981"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><b>SSL / TLS 1.3</b><small>A+ Rating · Auto-Renew</small></div>
+    </div>
+    <div class="c-item">
+      <div class="c-icon" style="color:#F59E0B"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+      <div><b>Daily Backups</b><small>Automated Cloud Snapshots</small></div>
+    </div>
+    <div class="c-item">
+      <div class="c-icon" style="color:#A78BFA"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+      <div><b>DDoS Guard</b><small>Layer 7 Enterprise Shield</small></div>
+    </div>
+  </div>
+</div>`;
+ return `<div class="bx-portal">
+  <div class="portal-head">
+    <div class="portal-user">
+      <span class="portal-av">PS</span>
+      <div><b>Mayfair Group Ltd</b><small>Client ID: #PNT-8842</small></div>
+    </div>
+    <span class="portal-badge">Active SLA</span>
+  </div>
+  <div class="portal-project">
+    <div class="proj-meta">
+      <div><b>Corporate Web & GEO Campaign</b><small>Phase 4: Live & Monitored</small></div>
+      <span class="proj-pct">100%</span>
+    </div>
+    <div class="proj-bar"><i style="width:100%"></i></div>
+  </div>
+  <div class="portal-stats">
+    <div class="pstat"><span>Next Renewal</span><b>Included in Plan</b></div>
+    <div class="pstat"><span>Monthly Invoices</span><b>Paid (1-Click PDF)</b></div>
+    <div class="pstat"><span>Project Lead</span><b>Sarah H. (London)</b></div>
+  </div>
+</div>`}">${t(n===1?"st_active":n===2?"st_await":"st_paid")}</span></div>`).join("")}</div>`}
 function whoPanel(i){const n=i+1;return `<div class="who-tx"><h3>${t("pe"+n+"h")}</h3><p>${t("pe"+n+"p")}</p><ul class="ticks">${t("pe"+n+"x").split(/\s*[,，、،]\s*/).map(x=>`<li>${esc(x)}</li>`).join("")}</ul><a class="btn btn-accent" href="${["#/service/web","#/service/web","#/service/redesign","#/service/saas","#/partners"][i]}">${t("learn")} ›</a></div><div class="who-art">${solArt(["corp","ecom","corp","saas","app"][i])}</div>`}
 function tstSlide(i){const n=i+1;return `<blockquote class="tq"><div class="stars" aria-label="5/5">★★★★★</div><p>${t("tq"+n)}</p><footer><span class="tav">${["L","M","R"][i]}</span><span><b>${t("tn"+n)}</b><small>${t("tr"+n)}</small></span></footer></blockquote>`}
 function pageHome(){const cats=[["web","c_web"],["ecom","c_ecom"],["app","c_app"],["saas","c_saas"],["seo","c_seo"],["geo","c_geo"]];
@@ -1255,7 +1410,21 @@ function pageHome(){const cats=[["web","c_web"],["ecom","c_ecom"],["app","c_app"
  <section class="sec"><div class="wrap"><div class="sec-h center"><h2>${t("build_h")}</h2><p>${t("build_p")}</p></div>
   <div class="gal">${Object.keys(MINI).map(k=>`<a class="gtile" href="#/builder"><div class="gprev">${realHTML(k)}</div><span class="gtip">${t("i_"+k)}</span></a>`).join("")}<a class="gtile gmore" href="#/work"><span>${logoSVG(54)}</span><b>${t("sol_h")} ›</b></a></div>
   <div class="cats">${cats.map(([id,k])=>`<a class="cat6" href="#/service/${id}">${svcIcon(id,46)}<h3>${t("sp_"+id)}</h3><p>${t(k)}</p><span class="go">${t("learn")} ›</span></a>`).join("")}</div></div></section>
- <section class="sec navy"><div class="wrap"><div class="sec-h"><h2>${t("bento_h")}</h2><p>${t("bento_p")}</p></div><div class="bento">${[1,2,3,4,5,6].map(i=>`<a class="bx b${i}" href="${["#/builder","#/service/geo","#/service/security","#/service/intl","#/service/hosting","#/dashboard"][i-1]}"><div class="bx-art">${bentoArt(i)}</div><h3>${t("b"+i+"h")}</h3><p>${t("b"+i+"p")}</p></a>`).join("")}</div></div></section>
+ <section class="sec navy bento-sec" id="advantage"><div class="wrap">
+  <div class="sec-h center">
+   <span class="sub-badge bento-sub-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> COMPLETE DIGITAL ADVANTAGE</span>
+   <h2 style="font-size:clamp(2rem,3.6vw,3.1rem);letter-spacing:-0.03em;margin-top:10px">${t("bento_h")}</h2>
+   <p style="max-width:680px;margin:12px auto 0;font-size:16.5px;color:#A9C2DA;line-height:1.6">${t("bento_p")}</p>
+  </div>
+  <div class="bento">${[1,2,3,4,5,6].map(i=>{
+    const tags=["VISUAL STUDIO","AI & GEO VISIBILITY","CORE WEB VITALS","GLOBAL LOCALIZATION","MANAGED CLOUD","EXECUTIVE PORTAL"];
+    return `<a class="bx b${i}" href="${["#/builder","#/service/geo","#/service/security","#/service/intl","#/service/hosting","#/dashboard"][i-1]}">
+     <div class="bx-topline"><span class="bx-tag">${tags[i-1]}</span><span class="bx-arrow">↗</span></div>
+     <div class="bx-art">${bentoArt(i)}</div>
+     <div class="bx-caption"><h3>${t("b"+i+"h")}</h3><p>${t("b"+i+"p")}</p></div>
+    </a>`;
+  }).join("")}</div>
+ </div></section>
  <section class="sec"><div class="wrap"><div class="sec-h center"><h2>${t("pillars_h")}</h2><p>${t("pillars_p")}</p></div><div class="five-x">${bigPenta(facetI)}<div><div class="fpanel light" id="fpanel" aria-live="polite">${facetPanel(facetI)}</div><p class="note">${t("fhint")}</p></div></div></div></section>
  <section class="sec tint"><div class="wrap"><div class="sec-h center"><h2>${t("who_h")}</h2><p>${t("who_p")}</p></div><div class="who-tabs" role="tablist">${[1,2,3,4,5].map(i=>`<button role="tab" data-action="who" data-i="${i-1}" aria-selected="${whoI===i-1}">${t("pe"+i)}</button>`).join("")}</div><div class="who" id="whoP">${whoPanel(whoI)}</div></div></section>
  <section class="sec"><div class="wrap"><div class="sec-h center"><span class="sub-badge" style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#00AEEF;background:rgba(0,174,239,.1);padding:6px 14px;border-radius:999px;margin-bottom:12px">Simple, Transparent Pricing</span><h2 style="font-size:2.4rem;letter-spacing:-0.03em">${t("pkg_h")}</h2><p style="max-width:640px;margin:8px auto 16px;font-size:16px;color:var(--ink-2)">${t("pkg_p")}</p><div style="display:flex;align-items:center;justify-content:center;gap:12px;margin:18px 0 10px">${billingSeg()}</div></div><div class="pkgs">${pkgCards()}</div><p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center"><a class="btn btn-ghost" href="#/pricing">${t("cta_pricing")}</a><span class="note">${t("bundle_note")}</span></p></div></section>
