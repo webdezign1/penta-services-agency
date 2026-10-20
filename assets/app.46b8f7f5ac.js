@@ -2451,7 +2451,7 @@ function mkSrc(m,key){if(key==="hero")return MK_IMG+m.id+"-hero"+(MK_THUMB?"-s":
  if(key==="s1"||key==="s2")return MK_IMG+m.id+"-"+key+".webp";
  if(key[0]==="i"){const n=((+key.slice(1)-1)%6)+1;return MK_OWN_ITEMS.has(m.id)?MK_IMG+m.id+"-i"+n+".webp":MK_IMG+m.ind+"-p"+n+".webp"}
  return MK_IMG+"team-"+(((+key.slice(1)-1)%12+12)%12+1)+".webp"}
-function mkImg(m,key,h,cls,w){return `<div class="mk-ph${cls?" "+cls:""}" style="height:${h}px${w?";width:"+w:""}"><img src="${mkSrc(m,key)}" alt="" loading="lazy" decoding="async" onerror="this.remove()"></div>`}
+function mkImg(m,key,h,cls,w){const s=mkSrc(m,key);const fn=s.split("/").pop();return `<div class="mk-ph${cls?" "+cls:""}" style="height:${h}px${w?";width:"+w:""}"><img src="${s}" alt="" loading="lazy" decoding="async" onerror="if(!this._tried){this._tried=true;this.src='https://pentaservices.co.uk/assets/tpl/'+${JSON.stringify(fn)}}else{this.remove()}"></div>`}
 const mkE=x=>esc(String(x));
 function mkRot(a,k){k=k%a.length;return a.slice(k).concat(a.slice(0,k))}
 function mkIni(n){return n.replace(/&/g," ").split(/\s+/).filter(w=>/^[A-Z]/.test(w)).slice(0,2).map(w=>w[0]).join("")||n[0]}
